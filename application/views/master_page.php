@@ -71,12 +71,82 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
                 return false;
             }
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                    if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+                
+                
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+              // alert(xmlhttp);
+            }
+
+
+//            function showHint(given_text)
+//            {
+//                alert(given_text);
+//                //var obj = document.getElementById(objID);
+//                serverPage = '<?php echo base_url()?>/Welcome/server?q=' + given_text;
+//                 alert(serverPage);
+//                xmlhttp.open("GET", serverPage);
+//                xmlhttp.onreadystatechange = function ()
+//                {
+////                   alert(xmlhttp.readyState);
+// //                  alert(xmlhttp.status);
+//                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+//                    {
+////                       alert(xmlhttp.responseText);
+//                        document.getElementById('res').innerHTML = xmlhttp.responseText;
+//                        //document.getElementById(objcw).innerHTML = xmlhttp.responseText;
+//                    }
+//                }
+//                xmlhttp.send(null);
+//            }
+        
+        
+        
+        function showHint(str) {
+    if (str.length == 0) { 
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+           
+        xmlhttp.open("GET", "<?php echo base_url()?>/Welcome/server?q=" + str, true);
+        
+        xmlhttp.send();
+    }
+}
+        
+        
+        
+        
+        
         </script>
     </head>
     <!-- Head END -->
 
     <!-- Body BEGIN -->
-    <body>
+    <body>  
+  
+
         <section class="ecommerce">
             <!-- BEGIN STYLE CUSTOMIZER -->
             <div class="color-panel hidden-sm">
@@ -384,19 +454,26 @@ Purchase Premium Metronic Admin Theme: http://themeforest.net/item/metronic-resp
 
                                         
                                         <li><a href="<?php echo base_url() ?>Welcome/about_page">About</a></li>
+                                        <li><a href="<?php echo base_url() ?>Welcome/email">Email</a></li>
 
                                         <!-- BEGIN TOP SEARCH -->
                                         <li class="menu-search">
                                             <span class="sep"></span>
                                             <i class="fa fa-search search-btn"></i>
                                             <div class="search-box">
-                                                <form action="#">
+                                                <form action="<?php echo base_url()?>Welcome/search_name_product"  method="post">
                                                     <div class="input-group">
-                                                        <input type="text" placeholder="Search" class="form-control">
+                                                    
+                                                        <input type="text" name="search_name" onkeyup="showHint(this.value)">
+                                                              
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-primary" type="submit">Search</button>
+                                                            <button class="btn btn-primary"  type="submit">Search</button>
                                                         </span>
-                                                    </div>
+                                                     
+                                                       
+                                                    </div>  
+                                                    <p id="txtHint"></p>
+                                                        
                                                 </form>
                                             </div> 
                                         </li>

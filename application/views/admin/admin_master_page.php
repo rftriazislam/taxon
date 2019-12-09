@@ -91,6 +91,98 @@
                 return false;
             }
         }
+       
+         if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+                
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+           
+            }
+            
+            
+            
+//    function countrySelect(str) {
+//     
+//        if (str.length == 0) { 
+//        document.getElementById("country").innerHTML = "";
+//        return;
+//    } else {
+//        var xmlhttp = new XMLHttpRequest();
+//        xmlhttp.onreadystatechange = function() {
+//            if (this.readyState == 4 && this.status == 200) {
+//                document.getElementById("country").innerHTML = this.responseText;
+//            }
+//        };
+//   
+//        xmlhttp.open("GET", "<?php echo base_url()?>Super_Admin/add_product?category_id=" + str, true);
+//           alert(xmlhttp.open);
+//        xmlhttp.send();
+//    }
+//            
+            
+            
+            
+            
+            
+            
+            
+         ///   
+            
+            
+            
+
+
+            function countrySelect(given_text)
+            
+            {
+               alert(given_text);
+//                var obj = document.getElementById(objID);
+                serverPage = "<?php echo base_url()?>Super_Admin/add_product?category_id="  + given_text;
+//                 alert(serverPage);
+                xmlhttp.open("GET", serverPage,true);
+                xmlhttp.onreadystatechange = function ()
+                {
+//                    alert(xmlhttp.readyState);
+//                    alert(xmlhttp.status);
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    {
+//                        alert(xmlhttp.responseText);
+                        document.getElementById('country').innerHTML = xmlhttp.responseText;
+//                        document.getElementById(objcw).innerHTML = xmlhttp.responseText;
+                    }
+                }
+                xmlhttp.send(null);
+            }
+            
+
+//            function villageSelect(given_text)
+//            {
+////                alert(given_text);
+//                //var obj = document.getElementById(objID);
+//                serverPage = 'village_server.php?city_id=' + given_text;
+////                 alert(serverPage);
+//                xmlhttp.open("GET", serverPage);
+//                xmlhttp.onreadystatechange = function ()
+//                {
+////                    alert(xmlhttp.readyState);
+////                    alert(xmlhttp.status);
+//                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+//                    {
+////                        alert(xmlhttp.responseText);
+//                        document.getElementById('village').innerHTML = xmlhttp.responseText;
+//                        //document.getElementById(objcw).innerHTML = xmlhttp.responseText;
+//                    }
+//                }
+//                xmlhttp.send(null);
+//            }
+        
+        
+        
+        
+        
         
         
     </script>
@@ -100,6 +192,9 @@
     </head>
 
     <body>
+        
+        
+       
         <!-- start: Header -->
         <div class="navbar">
             <div class="navbar-inner">

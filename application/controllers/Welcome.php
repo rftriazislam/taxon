@@ -34,6 +34,65 @@ class Welcome extends CI_Controller {
         $this->load->view('master_page', $data);
     }
 
+    public function server() {
+    $q = $_REQUEST["q"];
+
+        $a = $this->Welcome_Model->product_info();
+      
+        
+  
+        
+
+        $hint = "";
+
+// lookup all hints from array if $q is different from "" 
+        if ($q !== "") {
+            $q = strtolower($q);
+            $len = strlen($q);
+            foreach ($a as $value) {
+                $name=$value->product_name;
+                if (stristr($q, substr($name, 0, $len))) {
+                    if ($hint === "") {
+                        $hint = '<br>' . $name . '<br>';
+                    } else {
+                        $hint .= " $name" . '<br>';
+                    }
+                }
+            }
+        }
+
+// Output "no suggestion" if no hint was found or output correct values 
+        echo $hint === "" ? "no suggestion" : $hint;
+    }
+   public function search_name_product(){
+       
+       $q= $this->input->post('search_name', TRUE);
+ 
+       
+     if($q){
+     $data = array();
+       $data['q']=$q;
+      $serachq= preg_replace("#[^0-9a-zA-Z]#i"," ",$q);
+       
+       
+       
+       $data['url_name'] = 'search_product_page';
+        $data['title'] = 'search product page';
+        $data['breadcrumb'] = TRUE;
+        $data['page_name'] = 'search product page';
+        $data['banner'] = FALSE;
+        $data['select_category'] = $this->Welcome_Model->set_category_info();
+        $data['view_brand'] = $this->Welcome_Model->set_brand_info();
+        $data['all_product_category']= $this->Welcome_Model->serach_info($serachq);
+      $data['main_content'] = $this->load->view('master_pages/search_product_page', $data, TRUE);
+      $this->load->view('master_page', $data);
+      
+      }else{
+          redirect('Welcome');
+      
+   }
+  
+      }
     public function product_page($category_id) {
         $data = array();
         $data['url_name'] = 'product_page/16';
@@ -84,6 +143,7 @@ class Welcome extends CI_Controller {
         $data['page_name'] = 'About';
         $data['breadcrumb'] = TRUE;
         $data['banner'] = FALSE;
+         $data['view_brand'] = $this->Welcome_Model->set_brand_info();
         $data['main_content'] = $this->load->view('master_pages/about_page', '', TRUE);
         $this->load->view('master_page', $data);
     }
@@ -167,64 +227,89 @@ class Welcome extends CI_Controller {
     public function add_wishlist($product_id) {
         $qty = 1;
         $product_info = $this->Welcome_Model->add_wishlist_info($product_id);
-        $data=array(
-      'id'  => $product_info->product_id,
-       'qty' =>$qty,
-          'price' => $product_info->product_new_price,
-          'name'  =>$product_info->product_name ,
-          'sku'   =>$product_info->product_sku_code,
-          'image'  =>$product_info->product_image
-          
-          ); 
-         $this->Welcome_Model->wishlist_by_product_id($data);
-          redirect('Welcome/wishlist');
+        $data = array(
+            'id' => $product_info->product_id,
+            'qty' => $qty,
+            'price' => $product_info->product_new_price,
+            'name' => $product_info->product_name,
+            'sku' => $product_info->product_sku_code,
+            'image' => $product_info->product_image
+        );
+        $this->Welcome_Model->wishlist_by_product_id($data);
+        redirect('Welcome/wishlist');
     }
 
-
-
-public function wishlist(){
-$data = array();
-$data['url_name'] = 'wishlist';
-$data['title'] = 'Wishlist Page';
-$data['breadcrumb'] = TRUE;
-$data['page_name'] = 'Wishlist';
-$data['banner'] = FALSE;
-$data['select_wishlist']=  $this->Welcome_Model->wishlist_information();
-$data['view_brand'] = $this->Welcome_Model->set_brand_info();
-$data['main_content'] = $this->load->view('master_pages/wishlist_details_page', $data, TRUE);
-$this->load->view('master_page', $data);
-}
-public function remove_wishlist($wishlist_id){
-    
-         $this->Welcome_Model->delete_wishlist_id_by_wishlist_id_id($wishlist_id);
-        redirect('Welcome/wishlist'); 
-        
-}
-public function  add_cart_wishlist($wishlist_id){
-      $qty=  $this->input->post('qty',TRUE);
-     $product_info=$this->Welcome_Model->select_wishlist_info_by_wishlist_id($wishlist_id);
-      $data=array(
-      'id'  => $product_info->wishlist_id,
-       'qty' =>$qty,
-          'price' => $product_info->price,
-          'name'  =>$product_info->name ,
-          'sku'   =>$product_info->sku,
-          'image'  =>$product_info->image
-          
-          ); 
-     
-      
-       $this->cart->insert($data);
-        
-       redirect('Cart/show_cart');
-       
-      
-       
-      
-       
-       
+    public function wishlist() {
+        $data = array();
+        $data['url_name'] = 'wishlist';
+        $data['title'] = 'Wishlist Page';
+        $data['breadcrumb'] = TRUE;
+        $data['page_name'] = 'Wishlist';
+        $data['banner'] = FALSE;
+        $data['select_wishlist'] = $this->Welcome_Model->wishlist_information();
+        $data['view_brand'] = $this->Welcome_Model->set_brand_info();
+        $data['main_content'] = $this->load->view('master_pages/wishlist_details_page', $data, TRUE);
+        $this->load->view('master_page', $data);
     }
 
+    public function remove_wishlist($wishlist_id) {
 
+        $this->Welcome_Model->delete_wishlist_id_by_wishlist_id_id($wishlist_id);
+        redirect('Welcome/wishlist');
+    }
+
+    public function add_cart_wishlist($wishlist_id) {
+        $qty = $this->input->post('qty', TRUE);
+        $product_info = $this->Welcome_Model->select_wishlist_info_by_wishlist_id($wishlist_id);
+        $data = array(
+            'id' => $product_info->wishlist_id,
+            'qty' => $qty,
+            'price' => $product_info->price,
+            'name' => $product_info->name,
+            'sku' => $product_info->sku,
+            'image' => $product_info->image
+        );
+
+
+        $this->cart->insert($data);
+
+        redirect('Cart/show_cart');
+    }
+        public function email() {
+        $data = array();
+        $data['title'] = 'About Page';
+        $data['url_name'] = 'about_page';
+        $data['page_name'] = 'About';
+        $data['breadcrumb'] = TRUE;
+        $data['banner'] = FALSE;
+         $data['view_brand'] = $this->Welcome_Model->set_brand_info();
+        $data['main_content'] = $this->load->view('master_pages/email_page', '', TRUE);
+        $this->load->view('master_page', $data);
+    }
+    public function email_send(){
+        
+        
+        $this->load->config('email');
+        $this->load->library('email');
+        
+        $from = $this->config->item('smtp_user');
+        $to = $this->input->post('to');
+        $subject = $this->input->post('subject');
+        $message = $this->input->post('message');
+
+        $this->email->set_newline("\r\n");
+        $this->email->from($from);
+        $this->email->to($to);
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            echo 'Your Email has successfully been sent.';
+        } else {
+            show_error($this->email->print_debugger());
+        }
+    }
+        
+   
 
 }

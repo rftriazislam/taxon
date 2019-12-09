@@ -23,6 +23,35 @@ class Welcome_Model extends CI_Model {
         
         
     }
+    public function product_name_info(){
+        $this->db->select('*'); 
+        $this->db->from('tbl_product');
+        $query=  $this->db->get();
+        $result=$query->result();
+         return $result;
+     
+       
+   
+    }
+  
+    
+    public function serach_info($serachq){
+        $this->db->select('*'); 
+        $this->db->from('tbl_product');
+        $this->db->like('product_name',$serachq);
+        $query=  $this->db->get();
+        $result=$query->result();
+        return $result;
+   
+    }
+    public function product_info(){
+        $this->db->select('*'); 
+        $this->db->from('tbl_product');
+        $query=  $this->db->get();
+        $result=$query->result();
+        return $result;
+   
+    }
     public function set_category_info(){
         $this->db->select('*'); 
         $this->db->from('tbl_category');

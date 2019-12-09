@@ -251,6 +251,8 @@ class Super_Admin extends CI_Controller {
 //-------------------------------End Manufacturer-------------------------------
     //-----start---Product------------------------------------------------------
     public function add_product() {
+      // $category_id = $_GET['category_id'];
+  
         $data = array();
         $data['body'] = FALSE;
         $data['breadcrumb'] = TRUE;
@@ -260,7 +262,6 @@ class Super_Admin extends CI_Controller {
         $data['all_category'] = $this->Super_Admin_Model->category__view_product_page();
         $data['all_manufacture'] = $this->Super_Admin_Model->manufacture__view_product_page();
         $data['admin_main_content'] = $this->load->view('admin/admin_pages/add_product_page', $data, TRUE);
-
         $this->load->view('admin/admin_master_page', $data);
     }
 
@@ -879,4 +880,28 @@ public function delete_brand($brand_id){
         $this->load->view('admin/admin_master_page', $data);
     }
 
+    
+    
+    public function server() {
+         $q = $_REQUEST["category_id"];
+         $data['all_manufacture'] = $this->Super_Admin_Model->manufacture__view_product_page($q);
+        print_r($q);
+        exit();
+        
+  
+        
+
+    } 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

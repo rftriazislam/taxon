@@ -69,7 +69,7 @@
         $result=$query->result();
         return $result;  
     }
-
+   
     public function manage_manufacture_info(){
         $this->db->select('*');
         $this->db->from('tbl_manufacture');
@@ -119,8 +119,10 @@
         
     }
     public function manufacture__view_product_page(){
+     
         $this->db->select('*');
         $this->db->from('tbl_manufacture');
+   //     $this->db->where('category_id',$q);
         $query=$this->db->get();
         $result=$query->result();
         return $result;
@@ -323,4 +325,21 @@
  
      
      //-------------------end banner--------------------------------------------
-}
+
+      public function category_info(){
+         $this->db->select('*');
+        $this->db->from('tbl_category');
+        $query=$this->db->get();
+        $result=$query->result();
+        return $result;  
+    }
+
+     
+     
+     
+     
+     
+     
+     
+     
+     }

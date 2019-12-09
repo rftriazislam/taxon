@@ -1,3 +1,6 @@
+
+
+
 <div class="row-fluid sortable " >
 
     <div class="box span12" >
@@ -47,7 +50,7 @@
                     <div class="control-group">
                         <label class="control-label"  for="selectError3"><b>Category Name</b></label>
                         <div class="controls" >
-                            <select id="selectError3" name="category_id" style="color:#980606;">
+                            <select id="selectError3" id="country" onchange="countrySelect(this.value)"  name="category_id" style="color:#980606;">
                                 <option style="color:#14de16;" >Select Category</option>
                                 <?php
                                 foreach ($all_category as $view_category) {
@@ -58,11 +61,13 @@
                                 <?php } ?>
                             </select>
                         </div>
+                        
                     </div>
+                    
                     <div class="control-group">
                         <label class="control-label"  for="selectError3"><b>Manufacture Name</b></label>
                         <div class="controls" >
-                            <select id="selectError3" name="manufacture_id" style="color:#980606;">
+                            <select id="selectError3" id="country" name="manufacture_id" style="color:#980606;">
                                 <option style="color:#14de16;" >Select Manufacture</option>
                                 <?php
                                 foreach ($all_manufacture as $view_manufacture) {
@@ -166,3 +171,4 @@
     <!--/span-->
 
 </div>
+          
